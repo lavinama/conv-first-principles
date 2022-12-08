@@ -68,7 +68,7 @@ def conv_1D_forward(A_prev, W, b=None, hparameters=None):
     cache = (A_prev, W, b, hparameters)
     return Z, cache
 ```
-[Back to top of page](#table-of-contents)
+[Back to top of page](#table-of-contents) <br />
 [Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `conv_1D_backward`
@@ -191,7 +191,7 @@ def initialize_parameters():
     parameters = {"W1": W, "b1": b}
     return parameters
 ```
-[Back to top of page](#table-of-contents)
+[Back to top of page](#table-of-contents) <br />
 [Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `forward_propagation`
