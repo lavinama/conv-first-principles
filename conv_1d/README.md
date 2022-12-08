@@ -15,6 +15,7 @@
   * [Activation functions](#relu)
     * [`relu`](#relu)
     * [`relu_backward`](#relu_backward)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ## Conv_1D components
 
@@ -68,7 +69,7 @@ def conv_1D_forward(A_prev, W, b=None, hparameters=None):
     return Z, cache
 ```
 [Back to top of page](#table-of-contents)
-
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `conv_1D_backward`
 
@@ -113,6 +114,7 @@ def conv_1D_backward(dZ, cache):
     return dA_prev, dW, db
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 
 ## Conv_1D Train
@@ -177,6 +179,7 @@ def train(X_train, Y_train, X_val=None, Y_val=None, learning_rate = 0.001, learn
     return parameters, losses
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `initialize_parameters`
 
@@ -189,6 +192,7 @@ def initialize_parameters():
     return parameters
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `forward_propagation``
 
@@ -221,6 +225,7 @@ def forward_propagation(X, parameters):
     return A1, memory
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `backward_propagation`
 
@@ -243,6 +248,7 @@ def backward_propagation(Y_hat, Y, memory):
     return grads_values
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `update`
 
@@ -254,6 +260,7 @@ def update(params_values, grads_values, learning_rate):
     return params_values
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### Loss function
 
@@ -273,6 +280,7 @@ def MSE_loss(predictions, targets):
     return np.sum((predictions-targets)**2)/predictions.shape[1]
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 #### `MSE_loss_grad`
 
@@ -290,6 +298,7 @@ def MSE_loss_grad(predictions, targets):
     return 2*(predictions-targets)/predictions.shape[1]
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### Activation functions
 
@@ -300,6 +309,7 @@ def relu(Z):
     return np.maximum(0,Z)
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 #### `relu_backward`
 
@@ -310,6 +320,7 @@ def relu_backward(dA, Z):
     return dZ
 ```
 [Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
 
 There are two different types of convolutions for 1D:
 
