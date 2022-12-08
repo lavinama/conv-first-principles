@@ -281,5 +281,6 @@ if __name__=="__main__":
     Z_gt = np.around(Z_gt.astype('float32'), decimals=4)
     print(Z[0,0,0,1])
     print(Z_gt[0,0,0,1])
-    print(Z_gt.shape)
+    print((Z_gt == Z).all())
+    print("Z_gt.shape", Z_gt.shape)
     print("Z.shape", Z.shape)

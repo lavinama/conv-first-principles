@@ -19,7 +19,7 @@ Flips the filter before “sliding” the two across one another until we reach 
 **output:** [$\max(W, k)$]
 
 ```python
-np.convolve([1, 2, 3, 4], [0.5, 1])
+np.convolve([1, 2, 3, 4], [0.5, 1], 'same')
 >>> [0.5 2.  3.5 5. ]
 ```
 
@@ -28,6 +28,6 @@ Flips the filter before “sliding” the two across one another starting from t
 **output:** [$\max(W, k) - \min(W, k) + 1$]
 
 ```python
-np.convolve([1, 2, 3, 4], [0.5, 1])
+np.convolve([1, 2, 3, 4], [0.5, 1], 'valid')
 >>> [2.  3.5 5. ]
 ```
