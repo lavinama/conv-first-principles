@@ -8,6 +8,7 @@ Raw implementations of a convolution layer only using numpy
 ### [Fully Connected Network](https://github.com/lavinama/conv-first-principles/tree/main/fc_neural_net#readme)
 
 
+## Convolutions
 We are going to study convolutions in dimensions 1D, 2D and 3D
 
 ##### 1D Convolution with 1D input
