@@ -86,7 +86,6 @@ def conv_1D_backward(dZ, cache):
     assert(dA_prev.shape == (m, n_W_prev))
     return dA_prev, dW, db
 
-
 def conv_1d_valid(input, filter):
     n_input = input.shape[0]
     n_filter = filter.shape[0]
