@@ -6,6 +6,8 @@ We are going to study convolutions in dimensions: 1D, 2D and 3D
 
 
 ### [1D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_1d#readme)
+### [2D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_1d#readme)
+### [Fully Connected Network](https://github.com/lavinama/conv-first-principles/tree/main/fc_neural_net#readme)
 
 ##### 1D Convolution with 1D input
 
