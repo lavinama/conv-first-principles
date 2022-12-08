@@ -5,6 +5,21 @@
   * [`loss`](#loss)
   * [`train`](#train)
   * [`predict`](#predict)
+* [NeuralNet](#neuralnet)
+  * [`train`](#train)
+  * [`init_layers`](#init_layers)
+  * [`forward_propagation`](#forward_propagation)
+  * [`backward_propagation`](#backward_propagation)
+  * [`update`](#update)
+  * [Activation functions](#activation-functions)
+    * [`sigmoid`](#sigmoid)
+    * [`sigmoid_backward`](#sigmoid_backward)
+    * [`relu`](#relu)
+    * [`relu_backward`](#relu_backward)
+  * [Loss functions](#loss-functions)
+    * [`get_cost_value`](#get_cost_value)
+    * [`convert_prob_into_class`](#convert_prob_into_class)
+    * [`get_accuracy_value`](#get_accuracy_value)
 
 
 [Home](https://github.com/lavinama/conv-first-principles#readme)
@@ -201,6 +216,14 @@ def predict(self, X):
     y_pred = np.argmax(out, axis=1)
 
     return y_pred
+```
+[Back to top of page](#table-of-contents)
+[Home](https://github.com/lavinama/conv-first-principles#readme)
+
+## 
+
+```python
+
 ```
 [Back to top of page](#table-of-contents)
 [Home](https://github.com/lavinama/conv-first-principles#readme)
