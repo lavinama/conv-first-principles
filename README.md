@@ -3,10 +3,12 @@ Raw implementations of a convolution layer only using numpy
 
 ## Home
 
-### [1D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_1d#readme)
-### [2D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_1d#readme)
 ### [Fully Connected Network](https://github.com/lavinama/conv-first-principles/tree/main/fc_neural_net#readme)
-
+### [1D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_1d#readme)
+### [2D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_2d#readme)
+### [3D Convolution](https://github.com/lavinama/conv-first-principles/tree/main/conv_3d#readme)
+### [Padding](https://github.com/lavinama/conv-first-principles/tree/main/padding#readme)
+### [Pooling](https://github.com/lavinama/conv-first-principles/tree/main/pooling#readme)
 
 ## Convolutions
 We are going to study convolutions in dimensions 1D, 2D and 3D
