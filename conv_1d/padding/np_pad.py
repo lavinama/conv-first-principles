@@ -1,8 +1,5 @@
 import numpy as np
 
-def zero_pad(X, pad):
-    
-
 def zero_pad_1d(X, pad): # X: (m, W)
 		# pad_with = ((before_m, after_m), (before_W, after_W))
     X_pad = np.pad(X, ((0,0), (pad,pad)), 'constant', constant_values = (0,0))

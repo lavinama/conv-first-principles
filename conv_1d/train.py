@@ -3,7 +3,7 @@ from conv_1d_valid import *
 
 def initialize_parameters():
     np.random.seed(1)                             # so that your "random" numbers match ours        
-    W = np.random.randn(4) # (k)
+    W = np.random.randn(3) # (k)
     b = np.random.randn(1) # (1)
     parameters = {"W1": W, "b1": b}
     return parameters
@@ -90,7 +90,8 @@ def relu_backward(dA, Z):
     dZ[Z <= 0] = 0
     return dZ
 
-def train(X_train, Y_train, learning_rate = 0.009, num_epochs = 20):
+def train(X_train, Y_train, X_val=None, Y_val=None, learning_rate = 0.001, learning_rate_decay=0.95,
+     num_iters=20, batch_size=4, verbose=False):
     """
     CONV1D -> RELU -> MAXPOOL
     
@@ -105,8 +106,11 @@ def train(X_train, Y_train, learning_rate = 0.009, num_epochs = 20):
     parameters -- parameters learnt by the model. They can then be used to predict.
     """
     np.random.seed(1)                            # to keep results consistent (numpy seed)                       
-    cost_history = []                                        # To keep track of the cost
-    
+    num_train = X_train.shape[0]
+    iterations_per_epoch = max(num_train / batch_size, 1)
+    train_loss_history = []                                        # To keep track of the cost
+    val_loss_history = []
+
     # Create Placeholders of the correct shape
     # X, Y = create_placeholders(n_H0, n_W0, n_C0, n_y)
 
@@ -114,33 +118,46 @@ def train(X_train, Y_train, learning_rate = 0.009, num_epochs = 20):
     parameters = initialize_parameters()
     
     # performing calculations for subsequent iterations
-    for i in range(num_epochs):
+    for it in range(num_iters):
+        random_idxs = np.random.choice(num_train, batch_size)
+        X_batch = X_train[random_idxs]
+        Y_batch = Y_train[random_idxs]
         # Forward propagation: Build the forward propagation in the tensorflow graph
-        Y_hat, memory = forward_propagation(X_train, parameters)
+        Y_hat, memory = forward_propagation(X_batch, parameters)
         
         # calculating metrics and saving them in history
-        cost = MSE_loss(Y_hat, Y_train)
-        cost_history.append(cost)
+        loss = MSE_loss(Y_hat, Y_batch)
+        train_loss_history.append(loss)
         
         # Backpropagation
-        grads_values = backward_propagation(Y_hat, Y_train, memory, parameters)
+        grads_values = backward_propagation(Y_hat, Y_batch, memory)
         
         # updating model state
         parameters = update(parameters, grads_values, learning_rate)
 
-    return parameters
+        if verbose and it % 5 == 0:
+            print('iteration %d / %d: loss %f' % (it, num_iters, loss))
+        if X_val and it % iterations_per_epoch == 0:
+            Y_val_hat, _ = forward_propagation(X_test, parameters)
+            val_loss_history.append(MSE_loss(Y_val_hat, Y_val))
+    
+    losses = {"train_loss": train_loss_history,
+            "val_loss": val_loss_history}
+    
+    return parameters, losses
     
 if __name__ == "__main__":
     X = np.random.randn(20, 10) # (N, n_W)
     # Generate noise samples
-    noise = np.random.normal(0, np.sqrt(10), size=[20,2])
-    Y = [np.square(X)*np.cos(X) + 4*X][0:2] + noise
+    noise = np.random.normal(0, np.sqrt(10), size=[20,8])
+    Y = [np.square(X[:,0:8])*np.cos(X[:,0:8]) + 4*X[:,0:8]] + noise
+    Y = Y.reshape(Y.shape[1], Y.shape[2])
     X_train = X[:16, :]
     X_test = X[16:, :]
     Y_train = Y[:16, :]
     Y_test = Y[16:, :]
     # Training
-    parameters = train(X_train, Y_train)
+    parameters, losses = train(X_train, Y_train)
     # Prediction
     Y_test_hat, _ = forward_propagation(X_test, parameters)
     print("loss:", MSE_loss(Y_test_hat, Y_test))

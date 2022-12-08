@@ -7,7 +7,7 @@ There are two different types of convolutions for 1D:
 **input:** [$W$], **filter:** [$k$]
 ### Full
 Flips the filter before “sliding” the two across one another until every point has been passed by all the filter values.
-**output:** [$W + k - 1$]
+**output:** [W + k - 1]
 
 ```python
 np.convolve([1, 2, 3, 4], [0.5, 1])
@@ -16,7 +16,7 @@ np.convolve([1, 2, 3, 4], [0.5, 1])
 
 ### Same
 Flips the filter before “sliding” the two across one another until we reach the final input value.
-**output:** [$\max(W, k)$]
+**output:** [max(W, k)]
 
 ```python
 np.convolve([1, 2, 3, 4], [0.5, 1], 'same')
@@ -25,7 +25,7 @@ np.convolve([1, 2, 3, 4], [0.5, 1], 'same')
 
 ### Valid
 Flips the filter before “sliding” the two across one another starting from the first input and until the we reach the final value of the input.
-**output:** [$\max(W, k) - \min(W, k) + 1$]
+**output:** [max(W, k) - min(W, k) + 1]
 
 ```python
 np.convolve([1, 2, 3, 4], [0.5, 1], 'valid')

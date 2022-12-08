@@ -1,6 +1,6 @@
 import numpy as np
 from padding.np_pad import zero_pad_1d as zero_pad
-from padding.np_pad import 
+from padding.np_pad import *
 
 def conv_1D_single_step(a_slice_prev, W, b):
     # Element-wise product between a_slice and W. Do not add the bias yet.
@@ -76,9 +76,9 @@ def conv_1D_backward(dZ, cache):
             horiz_start = w
             horiz_end = horiz_start + f
             # Use the corners to define the slice from a_prev_pad
-            a_slice = a_prev_pad[horiz_start:horiz_end, :]
+            a_slice = a_prev_pad[horiz_start:horiz_end]
             # Update gradients for the window and the filter's parameters using the code formulas given above
-            da_prev_pad[horiz_start:horiz_end, :] += W[:] * dZ[i, w]
+            da_prev_pad[horiz_start:horiz_end] += W[:] * dZ[i, w]
             dW[:] += a_slice * dZ[i, w]
             db[:] += dZ[i, w]
         # Set the ith training example's dA_prev to the unpaded da_prev_pad (Hint: use X[pad:-pad, pad:-pad, :])
