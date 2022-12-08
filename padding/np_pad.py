@@ -1,5 +1,10 @@
 import numpy as np
 
+def zero_pad_1d(X, pad): # X: (m, W)
+		# pad_with = ((before_m, after_m), (before_W, after_W))
+    X_pad = np.pad(X, ((0,0), (pad,pad)), 'constant', constant_values = (0,0))
+    return X_pad
+
 def zero_pad_3d(X, pad): # X: (m, H, W)
     """
     Pad with zeros all images of the dataset X. The padding is applied to the height and width of an image, 

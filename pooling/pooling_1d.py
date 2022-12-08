@@ -11,17 +11,17 @@ def pool_forward(A_prev, hparameters, mode = "max"):
     # Initialize output matrix A
     A = np.zeros((m, n_W_out))              
     for i in range(m):                         # loop over the training examples
-            for w in range(n_W_out):                 # loop on the horizontal axis of the output volume
-                # Find the corners of the current "slice"¡
-                horiz_start = w*stride
-                horiz_end = w*stride + f
-                # Use the corners to define the current slice on the ith training example of A_prev, channel c.
-                a_prev_slice = A_prev[i, horiz_start:horiz_end]
-                # Compute the pooling operation on the slice. Use an if statment to differentiate the modes. Use np.max/np.mean.
-                if mode == "max":
-                    A[i, w] = np.max(a_prev_slice)
-                elif mode == "average":
-                    A[i, w] = np.mean(a_prev_slice)    
+        for w in range(n_W_out):                 # loop on the horizontal axis of the output volume
+            # Find the corners of the current "slice"¡
+            horiz_start = w*stride
+            horiz_end = w*stride + f
+            # Use the corners to define the current slice on the ith training example of A_prev, channel c.
+            a_prev_slice = A_prev[i, horiz_start:horiz_end]
+            # Compute the pooling operation on the slice. Use an if statment to differentiate the modes. Use np.max/np.mean.
+            if mode == "max":
+                A[i, w] = np.max(a_prev_slice)
+            elif mode == "average":
+                A[i, w] = np.mean(a_prev_slice)    
     # Store the input and hparameters in "cache" for pool_backward()
     cache = (A_prev, hparameters)
     # Making sure your output shape is correct
