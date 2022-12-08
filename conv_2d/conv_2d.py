@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-from padding.pad_3d import pad_3d_no_nppad
+from padding.np_pad import zero_pad_3d as zero_pad
 
 def grader():
     ones_2d = np.ones((5,5))
@@ -37,7 +37,7 @@ def conv_2D_single_step(a_slice_prev, W, b):
     Z = Z + b.astype(float)
     return Z
 
-def conv_2D(A_prev, W, b=None, hparameters=None):
+def conv_2D_forward(A_prev, W, b=None, hparameters=None):
     (m, in_height, in_width) = A_prev.shape
     (filter_height, filter_width) = W.shape
     if not b:
@@ -53,7 +53,7 @@ def conv_2D(A_prev, W, b=None, hparameters=None):
     n_W_out =int((in_width + 2*pad - filter_width)/stride) + 1
     
     Z = np.zeros([m, n_H_out, n_W_out])
-    A_prev_pad = pad_3d_no_nppad(A_prev, pad)
+    A_prev_pad = zero_pad(A_prev, pad)
     
     for i in range(m):                               # loop over the batch of training examples
         a_prev_pad = A_prev_pad[i,:,:]                              # Select ith training example's padded activation
@@ -73,6 +73,48 @@ def conv_2D(A_prev, W, b=None, hparameters=None):
     # Save information in "cache" for the backprop
     cache = (A_prev, W, b, hparameters)
     return Z, cache
+
+def conv_2D_backward(dZ, cache):
+    # Retrieve information from "cache"
+    (A_prev, W, b, hparameters) = cache
+    # Retrieve dimensions from A_prev's shape
+    (m, n_H_prev, n_W_prev) = A_prev.shape
+    # Retrieve dimensions from W's shape
+    (f, f) = W.shape
+    # Retrieve information from "hparameters"
+    stride = hparameters["stride"]
+    pad = hparameters["pad"]
+    # Retrieve dimensions from dZ's shape
+    (m, n_H, n_W) = dZ.shape
+    # Initialize dA_prev, dW, db with the correct shapes
+    dA_prev = np.zeros((m, n_H_prev, n_W_prev))                           
+    dW = np.zeros((f, f))
+    db = np.zeros((1, 1))
+    # Pad A_prev and dA_prev
+    A_prev_pad = zero_pad(A_prev, pad)
+    dA_prev_pad = zero_pad(dA_prev, pad)
+    for i in range(m):                       # loop over the training examples
+        # select ith training example from A_prev_pad and dA_prev_pad
+        a_prev_pad = A_prev_pad[i]
+        da_prev_pad = dA_prev_pad[i]
+        for h in range(n_H):                   # loop over vertical axis of the output volume
+            for w in range(n_W):               # loop over horizontal axis of the output volume
+                # Find the corners of the current "slice"
+                vert_start = h
+                vert_end = vert_start + f
+                horiz_start = w
+                horiz_end = horiz_start + f
+                # Use the corners to define the slice from a_prev_pad
+                a_slice = a_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :]
+                # Update gradients for the window and the filter's parameters using the code formulas given above
+                da_prev_pad[vert_start:vert_end, horiz_start:horiz_end, :] += W[:,:,:] * dZ[i, h, w]
+                dW[:,:,:] += a_slice * dZ[i, h, w]
+                db[:,:,:] += dZ[i, h, w]
+        # Set the ith training example's dA_prev to the unpaded da_prev_pad (Hint: use X[pad:-pad, pad:-pad, :])
+        dA_prev[i, :, :] = da_prev_pad[pad:-pad, pad:-pad]
+    # Making sure your output shape is correct
+    assert(dA_prev.shape == (m, n_H_prev, n_W_prev))
+    return dA_prev, dW, db
 
 if __name__=="__main__":
     ones_2d = np.ones((5,5))
