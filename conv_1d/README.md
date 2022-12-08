@@ -1,20 +1,20 @@
 
 ## Table of Contents
-1. [Conv_1D components](#conv_1d-components)
-  1. `conv_1D_forward`(#conv_1d_forward)
-  2. `conv_1D_backward`(#conv_1D_backward)
-2. [Conv_1D Train](#conv_1d-train)
-  1. `train`(#train)
-  2. `initialize_parameters` (#initialize_parameters)
-  3. `forward_propagation` (#forward_propagation)
-  4. `backward_propagation` (#backward_propagation)
-  5. `update` (#update)
-  6. Loss functions (#loss-function)
-    1. `MSE_loss`(#mse_loss)
-    2. `MSE_loss_grad`(#mse_loss_grad)
-  7. Activation functions (#relu)
-    1. `relu`(#relu)
-    2. `relu_backward`(#relu_backward)
+* [Conv_1D components](#conv_1d-components)
+  * [`conv_1D_forward`](#conv_1d_forward)
+  * [`conv_1D_backward`](#conv_1D_backward)
+* [Conv_1D Train](#conv_1d-train)
+  * [`train`](#train)
+  * [`initialize_parameters`](#initialize_parameters)
+  * [`forward_propagation`](#forward_propagation)
+  * [`backward_propagation`](#backward_propagation)
+  * [`update`](#update)
+  * [Loss functions](#loss-function)
+    * [`MSE_loss`](#mse_loss)
+    * [`MSE_loss_grad`](#mse_loss_grad)
+  * [Activation functions](#relu)
+    * [`relu`](#relu)
+    * [`relu_backward`](#relu_backward)
 
 ## Conv_1D components
 
@@ -67,6 +67,8 @@ def conv_1D_forward(A_prev, W, b=None, hparameters=None):
     cache = (A_prev, W, b, hparameters)
     return Z, cache
 ```
+[Back to top of page](#table-of-contents)
+
 
 ### `conv_1D_backward`
 
@@ -110,6 +112,7 @@ def conv_1D_backward(dZ, cache):
     assert(dA_prev.shape == (m, n_W_prev))
     return dA_prev, dW, db
 ```
+[Back to top of page](#table-of-contents)
 
 
 ## Conv_1D Train
@@ -173,6 +176,7 @@ def train(X_train, Y_train, X_val=None, Y_val=None, learning_rate = 0.001, learn
     
     return parameters, losses
 ```
+[Back to top of page](#table-of-contents)
 
 ### `initialize_parameters`
 
@@ -184,6 +188,7 @@ def initialize_parameters():
     parameters = {"W1": W, "b1": b}
     return parameters
 ```
+[Back to top of page](#table-of-contents)
 
 ### `forward_propagation``
 
@@ -215,6 +220,7 @@ def forward_propagation(X, parameters):
     
     return A1, memory
 ```
+[Back to top of page](#table-of-contents)
 
 ### `backward_propagation`
 
@@ -236,6 +242,7 @@ def backward_propagation(Y_hat, Y, memory):
 
     return grads_values
 ```
+[Back to top of page](#table-of-contents)
 
 ### `update`
 
@@ -246,6 +253,7 @@ def update(params_values, grads_values, learning_rate):
     params_values["b1"] -= learning_rate * grads_values["db1"]
     return params_values
 ```
+[Back to top of page](#table-of-contents)
 
 ### Loss function
 
@@ -264,6 +272,7 @@ def MSE_loss(predictions, targets):
     """
     return np.sum((predictions-targets)**2)/predictions.shape[1]
 ```
+[Back to top of page](#table-of-contents)
 
 #### `MSE_loss_grad`
 
@@ -280,6 +289,7 @@ def MSE_loss_grad(predictions, targets):
     """
     return 2*(predictions-targets)/predictions.shape[1]
 ```
+[Back to top of page](#table-of-contents)
 
 ### Activation functions
 
@@ -289,6 +299,7 @@ def MSE_loss_grad(predictions, targets):
 def relu(Z):
     return np.maximum(0,Z)
 ```
+[Back to top of page](#table-of-contents)
 
 #### `relu_backward`
 
@@ -298,6 +309,7 @@ def relu_backward(dA, Z):
     dZ[Z <= 0] = 0
     return dZ
 ```
+[Back to top of page](#table-of-contents)
 
 There are two different types of convolutions for 1D:
 
