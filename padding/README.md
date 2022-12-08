@@ -21,7 +21,7 @@ def zero_pad_1d(X, pad): # X: (m, W)
     X_pad = np.pad(X, ((0,0), (pad,pad)), 'constant', constant_values = (0,0))
     return X_pad
 ```
-[Back to top of page](#table-of-contents)
+[Back to top of page](#table-of-contents) <br />
 [Home](https://github.com/lavinama/conv-first-principles#readme)
 
 ### `zero_pad_3d`
