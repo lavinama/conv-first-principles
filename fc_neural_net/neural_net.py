@@ -163,12 +163,10 @@ def full_backward_propagation(Y_hat, Y, memory, params_values, nn_architecture):
     return grads_values
 
 def update(params_values, grads_values, nn_architecture, learning_rate):
-
     # iteration over network layers
     for layer_idx, layer in enumerate(nn_architecture, 1):
         params_values["W" + str(layer_idx)] -= learning_rate * grads_values["dW" + str(layer_idx)]        
         params_values["b" + str(layer_idx)] -= learning_rate * grads_values["db" + str(layer_idx)]
-
     return params_values
 
 def train(X_train, Y_train, nn_architecture, X_val=None, Y_val=None, num_iters=100, learning_rate=1e-3,
