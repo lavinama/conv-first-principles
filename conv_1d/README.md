@@ -2,12 +2,19 @@
 ## Table of Contents
 1. [Conv_1D components](#conv_1d-components)
   1. `conv_1D_forward`(#conv_1d_forward)
-  2. `conv_1D_forward`(#conv_1d_forward)
-2. [UNet Architecture](#unet-architecture)
-3. [Training](#training)
-4. [Dataset](#dataset)
-5. [Results](#results)
-
+  2. `conv_1D_backward`(#conv_1D_backward)
+2. [Conv_1D Train](#conv_1d-train)
+  1. `train`(#train)
+  2. `initialize_parameters` (#initialize_parameters)
+  3. `forward_propagation` (#forward_propagation)
+  4. `backward_propagation` (#backward_propagation)
+  5. `update` (#update)
+  6. Loss functions (#loss-function)
+    1. `MSE_loss`(#mse_loss)
+    2. `MSE_loss_grad`(#mse_loss_grad)
+  7. Activation functions (#relu)
+    1. `relu`(#relu)
+    2. `relu_backward`(#relu_backward)
 
 ## Conv_1D components
 
