@@ -1,9 +1,9 @@
 
 ## Table of Contents
-* [Conv_1D components](#conv_1d-components)
-  * [`conv_1D_forward`](#conv_1d_forward)
-  * [`conv_1D_backward`](#conv_1d_backward)
-* [Conv_1D Train](#conv_1d-train)
+* [Conv_2D components](#conv_2d-components)
+  * [`conv_2D_forward`](#conv_2d_forward)
+  * [`conv_2D_backward`](#conv_2d_backward)
+* [Conv_2D Train](#conv_2d-train)
   * [`train`](#train)
   * [`initialize_parameters`](#initialize_parameters)
   * [`forward_propagation`](#forward_propagation)
@@ -17,12 +17,12 @@
     * [`relu_backward`](#relu_backward)
 [Home](https://github.com/lavinama/conv-first-principles#readme)
 
-## Conv_1D components
+## Conv_2D components
 
-### `conv_1D_forward`
+### `conv_2D_forward`
 
 ```python
-def conv_1D_single_step(a_slice_prev, W, b):
+def conv_2D_single_step(a_slice_prev, W, b):
     # Element-wise product between a_slice and W. Do not add the bias yet.
     s = np.multiply(a_slice_prev,W)
     # Sum over all entries of the volume s.
@@ -31,7 +31,7 @@ def conv_1D_single_step(a_slice_prev, W, b):
     Z = Z + b.astype(float)
     return Z
 
-def conv_1D_forward(A_prev, W, b=None, hparameters=None):
+def conv_2D_forward(A_prev, W, b=None, hparameters=None):
     # Retrieve dimensions from A_prev's shape
     (m, n_W_in) = A_prev.shape
     # Retrieve dimensions from W's shape
@@ -61,7 +61,7 @@ def conv_1D_forward(A_prev, W, b=None, hparameters=None):
             # Use the corners to define the (3D) slice of a_prev_pad.
             a_slice_prev = a_prev_pad[horiz_start:horiz_end]
             # Convolve the (1D) slice with the correct filter W and bias b, to get back one output neuron.
-            Z[i, w] = conv_1D_single_step(a_slice_prev, W, b)
+            Z[i, w] = conv_2D_single_step(a_slice_prev, W, b)
     # Making sure your output shape is correct
     assert(Z.shape == (m, n_W_out))
     # Save information in "cache" for the backprop
@@ -71,10 +71,10 @@ def conv_1D_forward(A_prev, W, b=None, hparameters=None):
 [Back to top of page](#table-of-contents)
 [Home](https://github.com/lavinama/conv-first-principles#readme)
 
-### `conv_1D_backward`
+### `conv_2D_backward`
 
 ```python
-def conv_1D_backward(dZ, cache):
+def conv_2D_backward(dZ, cache):
     # Retrieve information from "cache"
     (A_prev, W, b, hparameters) = cache
     # Retrieve dimensions from A_prev's shape
@@ -117,7 +117,7 @@ def conv_1D_backward(dZ, cache):
 [Home](https://github.com/lavinama/conv-first-principles#readme)
 
 
-## Conv_1D Train
+## Conv_2D Train
 
 ### `train`
 
@@ -214,7 +214,7 @@ def forward_propagation(X, parameters):
     # Retrieve the parameters from the dictionary "parameters" 
     W1 = parameters["W1"]
     # CONV1D: stride of 1, padding of 1
-    Z1, cache = conv_1D_forward(A_curr, W1)
+    Z1, cache = conv_2D_forward(A_curr, W1)
     # saving calculated values in the memory
     memory["cache1"] = cache
 
@@ -241,7 +241,7 @@ def backward_propagation(Y_hat, Y, memory):
     # calculation of the activation function derivative
     dZ_curr = relu_backward(dA_curr, Y_hat)
     cache1 = memory["cache1"]
-    dA_prev, dW_curr, db_curr = conv_1D_backward(dZ_curr, cache1)
+    dA_prev, dW_curr, db_curr = conv_2D_backward(dZ_curr, cache1)
     grads_values["dW1"] = dW_curr
     grads_values["db1"] = db_curr
 
@@ -321,37 +321,3 @@ def relu_backward(dA, Z):
 ```
 [Back to top of page](#table-of-contents) <br />
 [Home](https://github.com/lavinama/conv-first-principles#readme)
-
-There are two different types of convolutions for 1D:
-
-<p align="center">
-  <img src="./../media/types_conv_1d.png", width=400 />
-</p>
-
-**input:** [$W$], **filter:** [$k$]
-### Full
-Flips the filter before “sliding” the two across one another until every point has been passed by all the filter values.
-**output:** [W + k - 1]
-
-```python
-np.convolve([1, 2, 3, 4], [0.5, 1])
->>> [0.5 2.  3.5 5.  4. ]
-```
-
-### Same
-Flips the filter before “sliding” the two across one another until we reach the final input value.
-**output:** [max(W, k)]
-
-```python
-np.convolve([1, 2, 3, 4], [0.5, 1], 'same')
->>> [0.5 2.  3.5 5. ]
-```
-
-### Valid
-Flips the filter before “sliding” the two across one another starting from the first input and until the we reach the final value of the input.
-**output:** [max(W, k) - min(W, k) + 1]
-
-```python
-np.convolve([1, 2, 3, 4], [0.5, 1], 'valid')
->>> [2.  3.5 5. ]
-```
