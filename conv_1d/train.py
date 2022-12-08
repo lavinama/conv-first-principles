@@ -1,5 +1,5 @@
 import numpy as np
-from conv_1d_valid import *
+from conv_1d.conv_1d import *
 
 def initialize_parameters():
     np.random.seed(1)                             # so that your "random" numbers match ours        
